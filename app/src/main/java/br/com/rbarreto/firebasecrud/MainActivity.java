@@ -17,11 +17,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.rbarreto.firebasecrud.adapter.MeuAdapter;
 import br.com.rbarreto.firebasecrud.modelo.Tarefa;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         conectarBanco();
         eventoDatabase();
+        eventoSuperDatabase();
+    }
+
+    private void eventoSuperDatabase() {
+        Query query = FirebaseDatabase.getInstance().getReference().child("Tarefa");
+
     }
 
     private void eventoDatabase() {
@@ -51,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
                     Tarefa tarefa = snapshot.getValue(Tarefa.class);
                     listaTarefas.add(tarefa);
                 }
-                arrayAdapterTarefa = new ArrayAdapter<Tarefa>(MainActivity.this, R.layout.layout_lista, R.id.tvNomeTarefa, listaTarefas);
+
+                //arrayAdapterTarefa = new ArrayAdapter<Tarefa>(MainActivity.this, R.layout.layout_lista, R.id.tvNomeTarefa, listaTarefas);
+                arrayAdapterTarefa = new MeuAdapter(MainActivity.this, (ArrayList<Tarefa>) listaTarefas);
                 listView.setAdapter(arrayAdapterTarefa);
 
                 listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
