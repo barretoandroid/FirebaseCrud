@@ -46,12 +46,12 @@ public class MeuAdapter extends ArrayAdapter<Tarefa> {
         nome.setText(tarefaAtual.getNome());
 
         TextView status = listItem.findViewById(R.id.tvStatus);
-        status.setText(tarefaAtual.getUid());
+        status.setText(tarefaAtual.isStatus() ? "True" : "False");
 
         ImageView image = listItem.findViewById(R.id.ivImage);
         Picasso.get()
                 .load(tarefaAtual.getImageSrc())
-                .resize(100, 100)
+                .resize(150, 150)
                 .centerCrop()
                 .into(image);
         return listItem;

@@ -24,6 +24,7 @@ public class AdicionaActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     private String uuid;
+    private String imageSrc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class AdicionaActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         uuid = intent.getStringExtra("UUID");
+        imageSrc = intent.getStringExtra("IMAGESRC");
 
         conectarBanco();
     }
@@ -51,6 +53,7 @@ public class AdicionaActivity extends AppCompatActivity {
         }
         else{
             tarefa.setUid(uuid);
+            tarefa.setImageSrc(imageSrc);
         }
         tarefa.setNome(etNome.getText().toString());
         tarefa.setStatus(false);

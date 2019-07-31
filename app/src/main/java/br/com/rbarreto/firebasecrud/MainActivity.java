@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         tarefaSelecionada = (Tarefa)parent.getItemAtPosition(position);
                         Intent intent = new Intent(getApplicationContext(), AdicionaActivity.class);
                         intent.putExtra("UUID", tarefaSelecionada.getUid());
+                        intent.putExtra("IMAGESRC", tarefaSelecionada.getImageSrc());
                         startActivity(intent);
                     }
                 });

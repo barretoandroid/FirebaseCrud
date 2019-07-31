@@ -34,6 +34,7 @@ public class Tarefa {
         this.status = status;
     }
 
+
     public String getImageSrc() {
         return imageSrc;
     }
