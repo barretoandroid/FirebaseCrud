@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private List<Tarefa> listaTarefas = new ArrayList<Tarefa>();
     private ArrayAdapter<Tarefa> arrayAdapterTarefa;
+    private Tarefa tarefaSelecionada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +68,19 @@ public class MainActivity extends AppCompatActivity {
                 listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                        Tarefa tarefaSelecionada = (Tarefa)parent.getItemAtPosition(position);
+                        tarefaSelecionada = (Tarefa)parent.getItemAtPosition(position);
                         databaseReference.child("Tarefa").child(tarefaSelecionada.getUid()).removeValue();
                         return true;
+                    }
+                });
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        tarefaSelecionada = (Tarefa)parent.getItemAtPosition(position);
+                        Intent intent = new Intent(getApplicationContext(), AdicionaActivity.class);
+                        intent.putExtra("UUID", tarefaSelecionada.getUid());
+                        startActivity(intent);
                     }
                 });
 

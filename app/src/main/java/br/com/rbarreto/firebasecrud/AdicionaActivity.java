@@ -1,5 +1,6 @@
 package br.com.rbarreto.firebasecrud;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,12 +23,17 @@ public class AdicionaActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
+    private String uuid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adiciona);
 
         etNome = findViewById(R.id.txtNome);
+
+        Intent intent = getIntent();
+        uuid = intent.getStringExtra("UUID");
 
         conectarBanco();
     }
@@ -40,7 +46,12 @@ public class AdicionaActivity extends AppCompatActivity {
 
     public void salvarTarefa(View view){
         Tarefa tarefa = new Tarefa();
-        tarefa.setUid(UUID.randomUUID().toString());
+        if (uuid == null){
+            tarefa.setUid(UUID.randomUUID().toString());
+        }
+        else{
+            tarefa.setUid(uuid);
+        }
         tarefa.setNome(etNome.getText().toString());
         tarefa.setStatus(false);
         databaseReference.child("Tarefa").child(tarefa.getUid()).setValue(tarefa);

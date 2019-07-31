@@ -9,7 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +47,13 @@ public class MeuAdapter extends ArrayAdapter<Tarefa> {
 
         TextView status = listItem.findViewById(R.id.tvStatus);
         status.setText(tarefaAtual.getUid());
+
+        ImageView image = listItem.findViewById(R.id.ivImage);
+        Picasso.get()
+                .load(tarefaAtual.getImageSrc())
+                .resize(100, 100)
+                .centerCrop()
+                .into(image);
         return listItem;
     }
 }
