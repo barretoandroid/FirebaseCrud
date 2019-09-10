@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -22,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import br.com.rbarreto.firebasecrud.adapter.MeuAdapter;
 import br.com.rbarreto.firebasecrud.modelo.Tarefa;
@@ -35,12 +37,14 @@ public class MainActivity extends AppCompatActivity {
     private List<Tarefa> listaTarefas = new ArrayList<Tarefa>();
     private ArrayAdapter<Tarefa> arrayAdapterTarefa;
     private Tarefa tarefaSelecionada;
+    private EditText etNome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.listView);
+        etNome = findViewById(R.id.editTextNome);
         conectarBanco();
         eventoDatabase();
         eventoSuperDatabase();
@@ -118,5 +122,15 @@ public class MainActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabase.setPersistenceEnabled(true);
         databaseReference = firebaseDatabase.getReference();
+    }
+
+    public void salvarTarefa(View view){
+        Tarefa tarefa = new Tarefa();
+
+        tarefa.setUid(UUID.randomUUID().toString());
+
+        tarefa.setNome(etNome.getText().toString());
+        tarefa.setStatus(false);
+        databaseReference.child("Tarefa").child(tarefa.getUid()).setValue(tarefa);
     }
 }
