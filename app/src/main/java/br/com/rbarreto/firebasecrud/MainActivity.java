@@ -1,7 +1,9 @@
 package br.com.rbarreto.firebasecrud;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                         tarefaSelecionada = (Tarefa)parent.getItemAtPosition(position);
-                        databaseReference.child("Tarefa").child(tarefaSelecionada.getUid()).removeValue();
+                        alertConfirm(tarefaSelecionada);
                         return true;
                     }
                 });
@@ -132,5 +134,27 @@ public class MainActivity extends AppCompatActivity {
         tarefa.setNome(etNome.getText().toString());
         tarefa.setStatus(false);
         databaseReference.child("Tarefa").child(tarefa.getUid()).setValue(tarefa);
+    }
+
+    public void alertConfirm(final Tarefa tarefa){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.app_name);
+        builder.setMessage("Você deseja remover essa tarefa?");
+        builder.setIcon(R.drawable.ic_launcher_foreground);
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                databaseReference.child("Tarefa").child(tarefa.getUid()).removeValue();
+            }
+        });
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
